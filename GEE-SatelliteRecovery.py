@@ -17,16 +17,20 @@ landsat_mosaic =  landsat.median().select(BANDS);
 
 task = ee.batch.Export.image.toDrive(image=landsat_mosaic,  # an ee.Image object.
                                      region=geometry,  # an ee.Geometry object.
-                                     description='RSX_export',
+                                     description='s63_export',
                                      folder='smp_folder',
-                                     fileNamePrefix='RSX_export',
-                                     scale=30,
+                                     fileNamePrefix='s63_export',
+                                     scale=10, 
+                                     maxPixels=1e13, 
                                      crs='EPSG:4326')
 
- #print(landsat)
+
 task.start()
-print(task.status())
-print(task.state)
-print(task.id)
-time.sleep(120)
-print(task.state)
+TaskSubmission = task.status()['state']
+while TaskSubmission != 'COMPLETED':
+    time.sleep(5)
+    TaskSubmission = task.status()['state']
+
+print('\nFile has finished uploading to drive...')
+
+
