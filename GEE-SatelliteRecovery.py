@@ -1,7 +1,9 @@
 # import google earth engine python api
 import ee
 import time
-# authentican and intialize GEE Python API
+import GDrive2System
+import GeoTiff2PNG
+# authenticate and intialize GEE Python API
 ee.Authenticate()
 ee.Initialize()
 
@@ -17,9 +19,9 @@ landsat_mosaic =  landsat.median().select(BANDS);
 
 task = ee.batch.Export.image.toDrive(image=landsat_mosaic,  # an ee.Image object.
                                      region=geometry,  # an ee.Geometry object.
-                                     description='s63_export',
+                                     description='LANDCRUISER_export',
                                      folder='smp_folder',
-                                     fileNamePrefix='s63_export',
+                                     fileNamePrefix='LANDCRUISER_export',
                                      scale=10, 
                                      maxPixels=1e13, 
                                      crs='EPSG:4326')
@@ -32,5 +34,23 @@ while TaskSubmission != 'COMPLETED':
     TaskSubmission = task.status()['state']
 
 print('\nFile has finished uploading to drive...')
+print('\nFile is now going to begin downloading from GDrive...')
+
+obj = GDrive2System.DriveAPI()
+i = int(input("Enter your choice:"
+                  "1 - Download file, AnyKey- Exit.\n"))
+   
+if i == 1:
+    f_id = input("Enter file id: ")
+    f_name = input("Enter file name: ")
+    obj.FileDownload(f_id, f_name)
+      
+else:
+    exit()
+
+print('\nFile is now being converted from GeoTiff to JPEG...')
+
+GeoTiff2PNG.Converter('LANDCRUISER_export')
+
 
 

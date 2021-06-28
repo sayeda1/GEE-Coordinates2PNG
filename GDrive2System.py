@@ -66,12 +66,13 @@ class DriveAPI:
         items = results.get('files', [])
   
         # print a list of files
+
+        #print("Here's a list of files: \n")
+        #print(items[0]['id'])
+        #print(*items, sep="\n", end="\n\n")
   
-        print("Here's a list of files: \n")
-        print(*items, sep="\n", end="\n\n")
-  
-    def FileDownload(self, file_id, file_name):
-        request = self.service.files().get_media(fileId=file_id)
+    #def FileDownload(self, file_id, file_name):
+        request = self.service.files().get_media(fileId=items[0]['id'])
         fh = io.BytesIO()
           
         # Initialise a downloader object to download the file
@@ -82,33 +83,35 @@ class DriveAPI:
             # Download the data in chunks
             while not done:
                 status, done = downloader.next_chunk()
+                print ("Download %d%%." % int(status.progress() * 100), end='\r')
   
             fh.seek(0)
               
             # Write the received data to the file
-            with open(file_name, 'wb') as f:
+            with open('C:/Users/Amaan-PC/Desktop/DatumCon/'+items[0]['name'], 'wb') as f:
+            #with io.open(dfilespath + "/" + name, 'wb') as f:
                 shutil.copyfileobj(fh, f)
   
-            print("File Downloaded")
+            print("File Downloaded from GDrive")
             # Return True if file Downloaded successfully
-            return True
+            #return True
         except:
             
             # Return False if something went wrong
             print("Something went wrong.")
-            return False
+            #return False
   
    
   
-if __name__ == "__main__":
-    obj = DriveAPI()
-    i = int(input("Enter your choice:"
-                  "1 - Download file, AnyKey- Exit.\n"))
+# if __name__ == "__main__":
+#     obj = DriveAPI()
+#     i = int(input("Enter your choice:"
+#                   "1 - Download file, AnyKey- Exit.\n"))
       
-    if i == 1:
-        f_id = input("Enter file id: ")
-        f_name = input("Enter file name: ")
-        obj.FileDownload(f_id, f_name)
+#     if i == 1:
+#         f_id = input("Enter file id: ")
+#         f_name = input("Enter file name: ")
+#         obj.FileDownload(f_id, f_name)
       
-    else:
-        exit()
+#     else:
+#         exit()
