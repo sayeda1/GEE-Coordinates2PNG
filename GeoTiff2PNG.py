@@ -1,5 +1,9 @@
 from osgeo import gdal
-
+import os 
+import sys 
+dirname, filename = os.path.split(os.path.abspath(sys.argv[0]))
+PathOfImages = os.path.join(dirname, "Images")
+PathOfTiffs = os.path.join(dirname, "GeoTiffs")
 def Converter(nfile):
     options_list = [
         '-ot Byte',
@@ -10,7 +14,7 @@ def Converter(nfile):
     options_string = " ".join(options_list)
         
     gdal.Translate(
-        'C:/Users/Amaan-PC/Desktop/DatumCon/'+nfile+'.jpg',
-        'C:/Users/Amaan-PC/Desktop/DatumCon/'+nfile+'.tif',
+        PathOfImages+'\\'+nfile+'.jpg',
+        PathOfTiffs+'\\'+nfile+'.tif',
         options=options_string
     )

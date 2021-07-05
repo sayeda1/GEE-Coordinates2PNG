@@ -3,6 +3,7 @@ from __future__ import print_function
 import pickle
 import os.path
 import io
+import sys
 import shutil
 import requests
 from mimetypes import MimeTypes
@@ -86,9 +87,12 @@ class DriveAPI:
                 print ("Download %d%%." % int(status.progress() * 100), end='\r')
   
             fh.seek(0)
-              
+            
+            dirname, filename = os.path.split(os.path.abspath(sys.argv[0])) 
+            PathOfFile = os.path.join(dirname, "GeoTiffs")
+            print(PathOfFile)
             # Write the received data to the file
-            with open('C:/Users/Amaan-PC/Desktop/DatumCon/'+items[0]['name'], 'wb') as f:
+            with open(PathOfFile+'\\'+items[0]['name'], 'wb') as f:
             #with io.open(dfilespath + "/" + name, 'wb') as f:
                 shutil.copyfileobj(fh, f)
   
