@@ -9,4 +9,4 @@ Current Snag List:
 3. Need to convert GeoTiff file to PNG. **Resolved**
 4. Need to fix output GEOTIFF file, currently faulty. **Resolved**
 5. Cloud coverage issue needs addressing.
-6. make code command line friendly.
+6. make code command line friendly. **Resolved** 
